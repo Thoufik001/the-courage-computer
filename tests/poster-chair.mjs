@@ -1,0 +1,12 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({headless:true,args:['--use-angle=metal','--enable-webgl']});
+const page=await browser.newPage({viewport:{width:1440,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://localhost:3000');await page.waitForLoadState('networkidle');await page.locator('.loading').waitFor({state:'detached'});await page.screenshot({path:'../courage-os-room.png'});
+const pink=async()=>{const shot=await page.screenshot({clip:{x:935,y:235,width:85,height:125}});return page.evaluate(async base64=>{const img=new Image();img.src='data:image/png;base64,'+base64;await img.decode();const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const x=c.getContext('2d');x.drawImage(img,0,0);const p=x.getImageData(0,0,c.width,c.height).data;let n=0;for(let i=0;i<p.length;i+=4)if(p[i]>140&&p[i+2]>p[i+1]*1.1)n++;return n;},shot.toString('base64'));};
+const before=await pink();assert(before>1500);
+await page.mouse.move(975,280);await page.waitForTimeout(500);await page.mouse.click(975,280);await page.waitForTimeout(1300);
+assert.equal(await page.locator('main').getAttribute('data-view'),'room');assert(await pink()<before*.2);
+await page.screenshot({path:'../../work/poster-fallen.png'});await page.waitForTimeout(6200);assert(await pink()>before*.8);
+await page.mouse.click(598,630);await page.waitForFunction(()=>document.querySelector('main')?.getAttribute('data-view')==='screen');await page.waitForTimeout(200);await page.screenshot({path:'../courage-os-screen.png'});
+assert.deepEqual(errors,[]);console.log('Poster fall/return and chair entry passed.');await browser.close();

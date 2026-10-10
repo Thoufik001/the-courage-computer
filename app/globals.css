@@ -1,0 +1,354 @@
+@import "tailwindcss";
+@font-face {
+  font-family: Michroma;
+  src: url("/fonts/michroma.ttf") format("truetype");
+  font-display: swap;
+}
+:root {
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  background: #211b20;
+  color: #c8ded0;
+  font-family: Michroma, sans-serif;
+}
+.experience {
+  position: relative;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+}
+.overlay {
+  position: absolute;
+  inset: 12% 15%;
+  border: 20px solid #b9b59b;
+  border-radius: 7%;
+}
+.crt-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.dotted-label {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(560px, 90vw);
+  height: 32px;
+  pointer-events: none;
+}
+footer {
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  font: 10px/1.5 sans-serif;
+  opacity: 0.55;
+}
+input {
+  position: absolute;
+  bottom: 50px;
+  left: 35%;
+  width: 30%;
+}
+.mobile-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  font-size: 16px;
+  pointer-events: none;
+}
+.mute {
+  position: absolute;
+  right: 26px;
+  bottom: 15px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: #c8ded0;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.mute:hover {
+  opacity: 1;
+}
+.mute:focus-visible {
+  outline: 1px dashed #c8ded0;
+  outline-offset: 2px;
+}
+.pulse {
+  animation: jitter 0.18s steps(2);
+}
+@keyframes jitter {
+  0%,
+  100% {
+    translate: 0;
+  }
+  35% {
+    translate: 2px -1px;
+  }
+  65% {
+    translate: -2px 1px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+@media (max-width: 600px) {
+  footer {
+    font-size: 8px;
+    left: 16px;
+    bottom: 21px;
+    max-width: 75%;
+  }
+  .overlay {
+    inset: 20% 4%;
+    border-width: 10px;
+  }
+  .mute {
+    right: 8px;
+  }
+}
+.room {
+  position: absolute;
+  inset: 0;
+}
+.overlay {
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: min(88vw, 118.9189dvh);
+  height: auto;
+  aspect-ratio: 2.5/1.85;
+  border: 0;
+  border-radius: 0;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.view-screen .overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.fallback .overlay {
+  box-shadow:
+    0 0 0 14px #373f3a,
+    0 0 0 40px #b9b59b;
+  border-radius: 7%;
+}
+.loading {
+  position: absolute;
+  inset: 0;
+  background: #211b20;
+  z-index: 5;
+}
+.loading .dotted-label {
+  bottom: 50%;
+}
+.dotted-label {
+  bottom: 64px;
+}
+.enter-computer {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.enter-computer:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  width: 200px;
+  height: 80px;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  outline: 2px dashed #c8ded0;
+}
+.exit {
+  position: absolute;
+  top: 24px;
+  left: 26px;
+  background: none;
+  border: 1px solid #c8ded040;
+  border-radius: 3px;
+  color: #c8ded0;
+  font: 10px Michroma;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.exit:focus-visible {
+  outline: 2px dashed #c8ded0;
+}
+.fallback .dotted-label {
+  bottom: 60px;
+}
+@media (max-width: 600px) {
+  .overlay {
+    border: 0;
+  }
+  .dotted-label {
+    bottom: 56px;
+    width: 92vw;
+  }
+  .fallback .overlay {
+    box-shadow:
+      0 0 0 7px #373f3a,
+      0 0 0 18px #b9b59b;
+  }
+  .exit {
+    top: 16px;
+    left: 16px;
+  }
+}
+
+/* In seated FPV the live 3D glass remains visible above the keyboard. */
+.view-screen:not(.fallback) .overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.view-screen:not(.fallback) .dotted-label {
+  bottom: 42px;
+}
+
+.exit {
+  border: 0;
+  background: none;
+  padding: 0;
+  width: 60px;
+  height: 52px;
+  filter: drop-shadow(2px 3px 0 #0005);
+  transition: transform 0.15s;
+}
+.exit:hover {
+  transform: rotate(-7deg) scale(1.08);
+}
+.exit:active {
+  transform: scale(0.93);
+}
+
+/* Paired cartoon controls frame the seated view. */
+.exit, .mute {
+  top: 22px;
+  bottom: auto;
+  width: 64px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #211b20;
+  border-radius: 47% 53% 43% 57% / 52% 43% 57% 48%;
+  background: #8f9c78;
+  box-shadow: inset 0 2px 0 #d4d8aa, 3px 4px 0 #211b20aa;
+  color: #211b20;
+  opacity: 1;
+  filter: none;
+  cursor: pointer;
+  transition: transform .15s;
+}
+.mute { right: 26px; }
+.mute:hover { transform: rotate(5deg) scale(1.06); }
+.mute:active { transform: scale(.93); }
+.view-screen:not(.fallback) > .dotted-label {
+  top: 22px;
+  bottom: auto;
+  width: min(650px, 72vw);
+  height: 36px;
+  filter: drop-shadow(0 2px 2px #211b20);
+}
+@media(max-width:600px) {
+  .exit,.mute { top: 14px; width: 48px; height: 44px; }
+  .exit { left:12px; }
+  .mute { right:12px; }
+  .view-screen:not(.fallback) > .dotted-label { top:68px; width:88vw; }
+}
+
+.fallback[data-power="off"] .crt-canvas { opacity:0; }
+.fallback[data-power="off"] .overlay { background:#030907; }
+
+.music-toggle {
+  position:absolute; z-index:20; top:22px; right:104px; width:64px; height:56px;
+  display:grid; place-items:center; border:2px solid #211b20;
+  border-radius:47% 53% 43% 57% / 52% 43% 57% 48%;
+  background:#8f9c78; box-shadow:inset 0 2px 0 #d4d8aa,3px 4px 0 #211b20aa;
+  color:#211b20; cursor:pointer; transition:transform .15s;
+}
+.music-toggle:hover { transform:rotate(-5deg) scale(1.06); }
+.music-toggle:active { transform:scale(.93); }
+.music-toggle:focus-visible { outline:2px dashed #e2e2bc; outline-offset:5px; }
+.credits { position:absolute; bottom:14px; left:22px; right:22px; z-index:20; display:flex; justify-content:space-between; gap:18px; pointer-events:none; }
+.credits a { pointer-events:auto; color:#d4d5b6; font:11px/1.5 Arial,sans-serif; text-decoration:none; text-shadow:0 1px 3px #211b20; padding:5px 8px; border-radius:4px; background:#211b2038; }
+.credits a:hover { color:#fffbe0; background:#211b2077; }
+.credits a:focus-visible { outline:2px dashed #e2e2bc; }
+@media(max-width:600px) {
+ .music-toggle { top:14px; right:70px; width:48px; height:44px; }
+ .credits { left:10px; right:10px; bottom:8px; gap:10px; align-items:flex-end; }
+ .credits a { font-size:9px; max-width:60%; }
+ .credits a:last-child { text-align:right; }
+}
+
+@font-face { font-family:Bangers; src:url("/fonts/bangers.ttf") format("truetype"); font-display:swap; }
+.credits a { background:none; padding:3px 0; border-radius:0; font-family:Bangers,"Comic Sans MS",cursive; font-size:15px; letter-spacing:.6px; color:#dedbbb; text-shadow:1px 2px 0 #211b20; }
+.credits a:hover { background:none; color:#fff5c8; }
+@media(max-width:600px) { .credits a { font-size:12px; letter-spacing:.35px; } }
+
+@media(max-width:600px) {
+ .credits {left:10px;right:10px;bottom:max(8px,env(safe-area-inset-bottom));gap:4px;align-items:center;}
+ .credits a {white-space:nowrap;max-width:none;flex-shrink:0;font-size:clamp(6px,1.9vw,11px);letter-spacing:0;}
+ .credits a:last-child {margin-left:auto;text-align:right;}
+}
+
+.credits a {font-family:"Comic Sans MS","Comic Sans",cursive;font-size:14px;letter-spacing:0;font-weight:600;}
+@media(max-width:600px) {
+ .credits {display:grid;grid-template-columns:1fr;gap:5px;left:14px;right:14px;bottom:max(12px,env(safe-area-inset-bottom));}
+ .credits a {font-size:12px;line-height:1.35;white-space:normal;max-width:100%;padding:0;}
+ .credits a:first-child {justify-self:start;}
+ .credits a:last-child {justify-self:end;text-align:right;margin-left:0;max-width:290px;}
+}
+@font-face {font-family:ComicNeue;src:url('/fonts/comic-neue.ttf') format('truetype');font-display:swap;}
+.credits a {font-family:"Comic Sans MS","Comic Sans",ComicNeue,cursive;}
+.credits {max-width:none;}
+
+@media(hover:hover) and (pointer:fine) {
+ main.experience, main.experience * {cursor:url('/courage-cursor.png') 5 0, pointer !important;}
+}
+@media(hover:hover) and (pointer:fine) {
+ .cursor-pressed main.experience, .cursor-pressed main.experience * {cursor:url('/courage-cursor-pressed.png') 6 0, pointer !important;}
+}
+@media(hover:hover) and (pointer:fine) {
+ .cursor-pressed main.experience, .cursor-pressed main.experience * {cursor:url('/courage-cursor-pressed.png') 7 0, pointer !important;}
+ .cursor-idle main.experience, .cursor-idle main.experience * {cursor:none !important;}
+}
+
+.hand-cursor {display:none;}
+@media(hover:hover) and (pointer:fine) {
+ main.experience, main.experience *, .cursor-pressed main.experience, .cursor-pressed main.experience * {cursor:none !important;}
+ .hand-cursor {display:block;position:fixed;left:0;top:0;width:64px;height:64px;z-index:10000;pointer-events:none;opacity:0;transition:opacity .45s ease;will-change:transform;}
+ .hand-cursor[data-visible="true"] {opacity:1;}
+ .cursor-idle .hand-cursor {opacity:0;}
+}
+
+@media(max-width:600px) {
+ .credits {justify-items:start;align-items:start;}
+ .credits a, .credits a:last-child {justify-self:start;text-align:left;margin-left:0;max-width:100%;}
+}
+

@@ -1,0 +1,3 @@
+Built-in image generation, strict reference edit.
+Prompt: Two equal cells on transparent background. Recreate the attached smooth nail-less pink cartoon pointing hand on the left. Duplicate it on the right, only slightly compressing the index finger for a press; no hooked bend. Same pink and narrow darker cel shading, same black outline, identical palm and straight tubular wrist. No nails, nail curves, circles on tips, fur, cuffs or tufts. Fade both wrist ends, including outlines, into transparency. No extra symbols or objects.
+Files: courage-cursor-strip.png, courage-cursor.png, courage-cursor-pressed.png. Shared scale, fingertip hotspot 5,0 for both. Cursor fades after 5 seconds idle.

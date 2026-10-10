@@ -1,0 +1,5 @@
+{
+  "crons": [
+    {"path": "/api/activity/retention", "schedule": "15 3 * * *"}
+  ]
+}

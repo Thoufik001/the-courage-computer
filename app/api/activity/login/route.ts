@@ -1,0 +1,5 @@
+import {cookies} from 'next/headers';
+import {createHash} from 'node:crypto';
+import {adminCookie,cookieOptions,sameOrigin,seal,validPassword} from '@/lib/activity-auth';
+import {allowLogin} from '@/lib/activity-store';
+export async function POST(req:Request){if(!sameOrigin(req))return new Response(null,{status:403});if(Number(req.headers.get('content-length'))>1024)return new Response(null,{status:413});const ip=createHash('sha256').update(req.headers.get('x-forwarded-for')?.split(',')[0]||'local').digest('hex');if(!await allowLogin(ip))return Response.json({error:'Too many attempts. Try again in 15 minutes.'},{status:429});let data;try{data=await req.json();}catch{return new Response(null,{status:400});}if(typeof data.username!=='string'||typeof data.password!=='string'||!validPassword(data.username,data.password))return Response.json({error:'Incorrect username or password.'},{status:401});(await cookies()).set(adminCookie,seal('admin:'+(Date.now()+8*3600000)),{...cookieOptions,maxAge:8*3600});return Response.json({ok:true});}

@@ -1,0 +1,3 @@
+# Courage Computer
+An unofficial interactive fan project inspired by Courage the Cowardly Dog. Visitors explore a wooden room, sit at the computer, and ask short questions answered in a dry cartoon voice. Credit links point to the inspiration and Thoufik's LinkedIn.
+The owner needs a private password-protected /activity surface to understand per-session visits, browser/device usage, clicks, time, submitted questions and replies. Retention is one year, as requested. No typing drafts or password fields are collected. Recording must use durable private storage; unavailable storage is explicitly reported.

@@ -1,0 +1,17 @@
+import { chromium } from '@playwright/test';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({headless:true,args:['--use-angle=metal','--enable-webgl']});
+const page=await browser.newPage({viewport:{width:1440,height:900}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.addInitScript(()=>{const RealAudio=window.Audio;window.Audio=class extends RealAudio {constructor(...args){super(...args);window.__theme=this;}};});
+await page.goto('http://localhost:3000');await page.waitForLoadState('networkidle');await page.locator('.loading').waitFor({state:'detached'});
+await page.screenshot({path:'../courage-os-room.png'});
+await page.keyboard.press('Enter');await page.waitForFunction(()=>document.querySelector('main')?.getAttribute('data-view')==='screen');
+await page.waitForTimeout(400);
+assert.equal(await page.evaluate(()=>window.__theme.volume),.2);
+await page.getByRole('button',{name:'Turn background music off',exact:true}).click();assert.equal(await page.evaluate(()=>window.__theme.paused),true);
+await page.getByRole('button',{name:'Turn background music on',exact:true}).click();await page.waitForTimeout(300);assert.equal(await page.evaluate(()=>window.__theme.paused),false);
+assert.equal(await page.getByRole('link',{name:/Made by Thoufik/}).getAttribute('href'),'https://www.linkedin.com/in/thoufikabdullah/');
+await page.screenshot({path:'../courage-os-screen.png'});
+await page.mouse.click(220,530);await page.waitForTimeout(200);await page.screenshot({path:'../courage-os-lamp.png'});
+assert.deepEqual(errors,[]); console.log("Music at 20%, credits and render passed."); await browser.close();
